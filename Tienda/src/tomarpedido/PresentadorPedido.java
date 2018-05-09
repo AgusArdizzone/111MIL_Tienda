@@ -6,6 +6,8 @@
 package tomarpedido;
 
 import java.util.List;
+import modelos.DetallePedido;
+import modelos.Pedido;
 import modelos.TipoPizza;
 import modelos.VariedadPizza;
 import modelos.TamanioPizza;
@@ -25,8 +27,30 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
     private int codigoCoccion;
     private int codigoTamanio;
     private int cantidad;
-    
+    private Pedido miPedido;
+    private List<DetallePedido> detalles;
 
+    @Override
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    @Override
+    public int getCodigoCoccion() {
+        return codigoCoccion;
+    }
+
+    @Override
+    public int getCodigoTamanio() {
+        return codigoTamanio;
+    }
+
+    @Override
+    public int getCodigoTipoPizza() {
+        return codigoTipoPizza;
+    }
+    
+    
     public PresentadorPedido(ContratoVistaPedido vista) {
         this.vista = vista;
         this.proveedorTomaPedido = new FalsoProveedorTomaPedido();
@@ -35,7 +59,8 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
     
     @Override
     public void procesarTipoPizzaIngresado(int op){
-        switch(op){
+        if(comprobacionOpcion(obtenerVariedades().size(),op)){
+            switch(op){
             case -1:
                 this.vista.irMenuPrincipal();
                 break;
@@ -43,9 +68,13 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
                 this.codigoTipoPizza = op;
                 this.vista.mostrarTiposCoccionDisponibles();
                 this.vista.mostrarSeleccionCoccion();
-                break;
-            
+                break;   
         }
+        }else{
+            this.vista.mostrarVariedadesDisponibles();
+            this.vista.mostrarSeleccionVariedadPizza();
+        }
+        
     }
     @Override
     public void iniciar(){
@@ -55,7 +84,8 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
 
     @Override
     public void procesarCoccionSeleccionada(int op) {
-        switch(op){
+        if(comprobacionOpcion(obtenerTiposCoccion().size(),op)){
+             switch(op){
             case -1:
                 this.vista.irMenuPrincipal();
                 break;
@@ -69,11 +99,17 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
                 this.vista.mostrarSeleccionarTamanioPizza();
                 break;
         }
+        }else{
+            this.vista.mostrarTiposCoccionDisponibles();
+            this.vista.mostrarSeleccionCoccion();
+        }
+        
     }
     
     @Override
     public void procesarTamanioSeleccionado(int op) {
-        switch(op){
+        if(comprobacionOpcion(obtenerTamanioPizza().size(), op)){
+            switch(op){
             case -1:
                 this.vista.irMenuPrincipal();
                 break;
@@ -83,7 +119,42 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
                 break;
             default:
                 this.codigoTamanio = op;
+                this.vista.PedirCantidad();
+                break;
+        }
+        }else{
+            this.vista.mostrarTamaniosDisponibles();
+            this.vista.mostrarSeleccionarTamanioPizza();
+        }
+        
+    }
+    
+    @Override
+    public void procesarCantidades(int op){
+        switch(op){
+            case 0:
+                this.vista.mostrarTamaniosDisponibles();
+                this.vista.mostrarSeleccionarTamanioPizza();
+                break;
+            default:
+                cantidad= op;
+                this.vista.confirmacion();
+                break;
+        }
+        
+    }
+    
+    @Override
+    public void procesarConfirmacion(int op){
+        switch(op){
+            case 1:
+                
+                break;
+            case 2:
                 this.vista.irMenuPrincipal();
+                break;
+            default:
+                this.vista.confirmacion();
                 break;
         }
     }
@@ -101,5 +172,14 @@ public class PresentadorPedido implements ContratoPresentadorPedido{
     @Override
     public List<TamanioPizza> obtenerTamanioPizza(){
         return this.proveedorTomaPedido.obtenerTamanio();
+    }
+    
+    @Override
+    public boolean comprobacionOpcion (int max,int op){
+        if(op>max){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

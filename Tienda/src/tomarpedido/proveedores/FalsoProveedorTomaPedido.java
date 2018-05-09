@@ -5,8 +5,11 @@
  */
 package tomarpedido.proveedores;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import modelos.Pedido;
+import modelos.Pizza;
 import modelos.TipoPizza;
 import modelos.VariedadPizza;
 import modelos.TamanioPizza;
@@ -32,6 +35,10 @@ public class FalsoProveedorTomaPedido implements ProveedorTomaPedido{
             new TamanioPizza(10,"Mediana"),
             new TamanioPizza(12,"Grande"));
     
+     private List<Pizza> pizzas = Arrays.asList(
+        new Pizza("calagrande", 120.5f, new TamanioPizza(8, "grande"), new TipoPizza("dsdfsdvsdv", "piedra"), new VariedadPizza("dvsdvsd", "calabresa")));
+     
+    private List<Pedido> pedidos = new ArrayList<>();
     @Override
     public List<VariedadPizza> obtenerVariedades() {
         return this.variedades;
@@ -45,6 +52,16 @@ public class FalsoProveedorTomaPedido implements ProveedorTomaPedido{
     @Override
     public List<TamanioPizza> obtenerTamanio() {
         return this.tamanios;
+    }
+
+    @Override
+    public void guardarPedido(Pedido pedido) {
+        this.pedidos.add(pedido);
+    }
+
+    @Override
+    public List<Pizza> obtenerPizzas() {
+        return this.pizzas;
     }
     
     

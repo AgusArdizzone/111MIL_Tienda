@@ -18,9 +18,11 @@ public interface ContratoVistaPedido {
     public void mostrarOPcionErronea();
     public void mostrarSeleccionarTamanioPizza();
    
-
+    public void PedirCantidad ();
     public void irMenuPrincipal();
 
     public void mostrarSeleccionCoccion();
     public void mostrarTamaniosDisponibles();
+
+    public void confirmacion();
 }

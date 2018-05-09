@@ -90,7 +90,36 @@ public class VistaPedido implements ContratoVistaPedido {
                 "-2) Para cambiar el tipo de coccion"+"\n"+
                 "NRO) El numero del tipo de tamanio para seleccionar el tipo de tamanio."+"\n");
         int opcion=teclado.nextInt();
-        presentador.procesarTamanioSeleccionado(opcion);
+        presentador.procesarTamanioSeleccionado(opcion);  
+    }
+    
+    @Override
+    public void PedirCantidad (){
+        Scanner teclado=new Scanner(System.in);
+        clearConsole();
+        System.out.println("Cuantas pizzas de este tipo quiere?");
+        int opcion = teclado.nextInt();
+        presentador.procesarCantidades(opcion);
+    }
+    
+    @Override
+    public void confirmacion(){
+        Scanner teclado=new Scanner(System.in);
+        int opcion;
+        clearConsole();
+        int variedad= presentador.getCodigoTipoPizza();
+        int coccion= presentador.getCodigoCoccion();
+        int tamanio= presentador.getCodigoTamanio();
+        System.out.println("Su eleccion fue:");
+        System.out.println(presentador.getCantidad()+" pizzas de "+
+                           presentador.obtenerVariedades().get(variedad).getNombre()+
+                           " de tamaño "+ presentador.obtenerTamanioPizza().get(tamanio).getNombre()+
+                           " hecha con "+ presentador.obtenerTiposCoccion().get(coccion).getNombre());
+        System.out.println("Desea confirmar su eleccion?");
+        System.out.println("1)Si");
+        System.out.println("2)No");
+        opcion = teclado.nextInt();
+        presentador.procesarConfirmacion(opcion);
         
     }
 
